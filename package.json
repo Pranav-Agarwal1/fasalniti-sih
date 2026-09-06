@@ -1,0 +1,44 @@
+{
+  "name": "react-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx server.ts",
+    "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+    "start": "node dist/server.cjs",
+    "preview": "vite preview",
+    "zip": "node -e \"const fs=require('fs'),path=require('path'),zlib=require('zlib');function zip(dir,out){const files=[];function walk(d){for(const e of fs.readdirSync(d,{withFileTypes:true})){const f=path.join(d,e.name),r=path.relative(dir,f).replace(/\\\\\\\\/g,'/');if(['node_modules','.git','dist','.zip'].some(p=>r.startsWith(p)||r.endsWith(p)||r.includes('/'+p+'/')))continue;if(e.isDirectory())walk(f);else if(e.isFile())files.push({fullPath:f,relPath:r});}}walk(dir);let curOff=0;const bufs=[],cdh=[],crcT=[];for(let i=0;i<256;i++){let c=i;for(let k=0;k<8;k++)c=((c&1)?(0xEDB88320^(c>>>1)):(c>>>1));crcT[i]=c>>>0;}function crc32(b){let c=-1;for(let i=0;i<b.length;i++)c=(c>>>8)^crcT[(c^b[i])&0xFF];return (c^-1)>>>0;}for(const fl of files){const raw=fs.readFileSync(fl.fullPath),uSz=raw.length,c32=crc32(raw),comp=zlib.deflateRawSync(raw,{level:6}),cSz=comp.length,nb=Buffer.from(fl.relPath,'utf8'),lh=Buffer.alloc(30+nb.length);lh.writeUInt32LE(0x04034b50,0);lh.writeUInt16LE(20,4);lh.writeUInt16LE(8,8);lh.writeUInt32LE(c32,14);lh.writeUInt32LE(cSz,18);lh.writeUInt32LE(uSz,22);lh.writeUInt16LE(nb.length,26);nb.copy(lh,30);const off=curOff;bufs.push(lh,comp);curOff+=lh.length+comp.length;const cd=Buffer.alloc(46+nb.length);cd.writeUInt32LE(0x02014b50,0);cd.writeUInt16LE(20,4);cd.writeUInt16LE(20,6);cd.writeUInt16LE(8,10);cd.writeUInt32LE(c32,16);cd.writeUInt32LE(cSz,20);cd.writeUInt32LE(uSz,24);cd.writeUInt16LE(nb.length,28);cd.writeUInt32LE(off,42);nb.copy(cd,46);cdh.push(cd);}const cdSt=curOff;let cdSz=0;for(const c of cdh){bufs.push(c);cdSz+=c.length;curOff+=c.length;}const eo=Buffer.alloc(22);eo.writeUInt32LE(0x06054b50,0);eo.writeUInt16LE(files.length,8);eo.writeUInt16LE(files.length,10);eo.writeUInt32LE(cdSz,12);eo.writeUInt32LE(cdSt,16);bufs.push(eo);const fz=Buffer.concat(bufs);fs.writeFileSync(out,fz);if(!fs.existsSync('./public'))fs.mkdirSync('./public',{recursive:true});fs.writeFileSync('./public/'+path.basename(out),fz);console.log('ZIP created:',out,(fz.length/1024).toFixed(1)+'KB');}zip(process.cwd(),'./fasalniti-complete-codebase.zip');\"",
+    "clean": "rm -rf dist server.cjs",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@google/genai": "^2.4.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "@tailwindcss/vite": "^4.1.14",
+    "@types/canvas-confetti": "^1.9.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "canvas-confetti": "^1.9.4",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "jspdf": "^4.2.1",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "vite": "^6.2.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.14.0",
+    "autoprefixer": "^10.4.21",
+    "esbuild": "^0.25.0",
+    "tailwindcss": "^4.1.14",
+    "tsx": "^4.21.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.3"
+  },
+  "optionalDependencies": {
+    "lightningcss-darwin-arm64": "^1.33.0"
+  }
+}

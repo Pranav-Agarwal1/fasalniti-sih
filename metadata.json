@@ -1,0 +1,6 @@
+{
+  "name": "Fasalniti",
+  "description": "Agricultural Market Decision Intelligence Platform helping farmers maximize net realization across buyer offers, mandis, aggregation, and storage.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

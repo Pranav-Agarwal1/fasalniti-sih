@@ -1,0 +1,305 @@
+import React from 'react';
+import { 
+  Sprout, 
+  Languages, 
+  Sparkles, 
+  Layers, 
+  BarChart3, 
+  TrendingUp, 
+  Truck, 
+  Building2, 
+  ShieldCheck, 
+  UserCheck, 
+  ArrowRight,
+  PlusCircle,
+  FileText,
+  MessageCircle
+} from 'lucide-react';
+import { Language, UserRole, AppView } from '../types';
+import { translations } from '../utils/translations';
+
+interface NavbarProps {
+  currentView: AppView;
+  onNavigate: (view: AppView) => void;
+  userRole: UserRole;
+  onRoleChange: (role: UserRole) => void;
+  language: Language;
+  onLanguageToggle: () => void;
+  onOpenAiAdvisor: () => void;
+  onStartNewAnalysis?: () => void;
+  onInitiateNegotiation?: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({
+  currentView,
+  onNavigate,
+  userRole,
+  onRoleChange,
+  language,
+  onLanguageToggle,
+  onOpenAiAdvisor,
+  onStartNewAnalysis,
+  onInitiateNegotiation,
+}) => {
+  const t = translations[language];
+
+  const handleStartAnalysisClick = () => {
+    if (onStartNewAnalysis) {
+      onStartNewAnalysis();
+    } else {
+      onNavigate('input');
+    }
+  };
+
+  return (
+    <header id="main-header" className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-emerald-950/10 shadow-xs">
+      {/* Top Banner / Role & Language Bar */}
+      <div className="bg-slate-900 text-slate-100 text-xs px-4 py-1.5 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-3">
+          <span className="inline-flex items-center gap-1.5 font-medium text-emerald-400">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Fasalniti Decision Engine Active
+          </span>
+          <span className="hidden sm:inline text-slate-400">|</span>
+          <span className="hidden sm:inline text-slate-300">
+            USP: <strong className="text-white font-semibold">{t.uspHeadline}</strong>
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3 ml-auto">
+          {/* Role Switcher */}
+          <div className="flex items-center bg-slate-800 rounded-md p-0.5 border border-slate-700">
+            <button
+              id="role-btn-farmer"
+              onClick={() => onRoleChange('farmer')}
+              className={`px-2.5 py-1 rounded text-xs font-medium transition-colors flex items-center gap-1 ${
+                userRole === 'farmer' 
+                  ? 'bg-emerald-600 text-white shadow-xs' 
+                  : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              <UserCheck className="w-3.5 h-3.5" />
+              <span>{t.farmerRole}</span>
+            </button>
+            <button
+              id="role-btn-buyer"
+              onClick={() => onRoleChange('buyer')}
+              className={`px-2.5 py-1 rounded text-xs font-medium transition-colors flex items-center gap-1 ${
+                userRole === 'buyer' 
+                  ? 'bg-blue-600 text-white shadow-xs' 
+                  : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              <Building2 className="w-3.5 h-3.5" />
+              <span>{t.buyerRole}</span>
+            </button>
+            <button
+              id="role-btn-fpo"
+              onClick={() => onRoleChange('aggregator')}
+              className={`px-2.5 py-1 rounded text-xs font-medium transition-colors flex items-center gap-1 ${
+                userRole === 'aggregator' || userRole === 'fpo'
+                  ? 'bg-amber-600 text-white shadow-xs' 
+                  : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>{t.fpoRole}</span>
+            </button>
+            <button
+              id="role-btn-admin"
+              onClick={() => onRoleChange('admin')}
+              className={`px-2.5 py-1 rounded text-xs font-medium transition-colors flex items-center gap-1 ${
+                userRole === 'admin' 
+                  ? 'bg-purple-600 text-white shadow-xs' 
+                  : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>{t.adminRole}</span>
+            </button>
+          </div>
+
+          {/* Language Toggle */}
+          <button
+            id="lang-toggle-btn"
+            onClick={onLanguageToggle}
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 hover:text-amber-200 border border-slate-700 font-medium transition-all"
+            title="Toggle English / हिन्दी"
+          >
+            <Languages className="w-3.5 h-3.5" />
+            <span>{language === 'en' ? 'हिन्दी' : 'English'}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Main Nav Bar */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Brand Logo */}
+          <div 
+            id="brand-logo" 
+            onClick={() => onNavigate('landing')}
+            className="flex items-center gap-3 cursor-pointer group"
+          >
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-700 to-emerald-500 flex items-center justify-center text-white shadow-md shadow-emerald-700/20 group-hover:scale-105 transition-transform">
+              <Sprout className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-extrabold text-xl tracking-tight text-slate-900 group-hover:text-emerald-700 transition-colors">
+                  FASAL<span className="text-emerald-600">NITI</span>
+                </span>
+                <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider border border-emerald-200">
+                  Decision AI
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-500 font-medium leading-none hidden sm:block">
+                {language === 'en' ? 'Net Realization Intelligence' : 'अधिकतम शुद्ध कमाई निर्णय प्रणाली'}
+              </p>
+            </div>
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-1">
+            <button
+              id="nav-link-home"
+              onClick={() => onNavigate('landing')}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                currentView === 'landing' 
+                  ? 'bg-emerald-50 text-emerald-700 font-semibold' 
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              {t.navHome}
+            </button>
+
+            <button
+              id="nav-link-analyze"
+              onClick={handleStartAnalysisClick}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5 ${
+                currentView === 'input' 
+                  ? 'bg-emerald-50 text-emerald-700 font-semibold' 
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              <PlusCircle className="w-4 h-4 text-emerald-600" />
+              <span>{t.navAddProduce}</span>
+            </button>
+
+            <button
+              id="nav-link-recommendation"
+              onClick={() => onNavigate('recommendation')}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors relative ${
+                currentView === 'recommendation' 
+                  ? 'bg-emerald-50 text-emerald-700 font-semibold' 
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              {t.navRecommendation}
+            </button>
+
+            <button
+              id="nav-link-compare"
+              onClick={() => onNavigate('compare')}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                currentView === 'compare' 
+                  ? 'bg-emerald-50 text-emerald-700 font-semibold' 
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              {t.navCompare}
+            </button>
+
+            <button
+              id="nav-link-aggregation"
+              onClick={() => onNavigate('aggregation')}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                currentView === 'aggregation' 
+                  ? 'bg-emerald-50 text-emerald-700 font-semibold' 
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              {t.navAggregation}
+            </button>
+
+            <button
+              id="nav-link-logistics"
+              onClick={() => onNavigate('logistics')}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                currentView === 'logistics' 
+                  ? 'bg-emerald-50 text-emerald-700 font-semibold' 
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              {language === 'en' ? 'Logistics' : 'भाड़ा कैलकुलेटर'}
+            </button>
+
+            <button
+              id="nav-link-trends"
+              onClick={() => onNavigate('trends')}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                currentView === 'trends' 
+                  ? 'bg-emerald-50 text-emerald-700 font-semibold' 
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              {t.navTrends}
+            </button>
+
+            <button
+              id="nav-link-dashboard"
+              onClick={() => onNavigate('farmer_dashboard')}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                currentView === 'farmer_dashboard' 
+                  ? 'bg-emerald-50 text-emerald-700 font-semibold' 
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              {t.navDashboard}
+            </button>
+          </nav>
+
+          {/* Action CTAs */}
+          <div className="flex items-center gap-2.5">
+            {/* AI Advisor Button */}
+            <button
+              id="btn-open-ai-advisor"
+              onClick={onOpenAiAdvisor}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 shadow-2xs transition-all hover:scale-102 cursor-pointer"
+              title="Ask Gemini Market Strategy Advisor"
+            >
+              <Sparkles className="w-4 h-4 text-emerald-600 animate-pulse" />
+              <span className="hidden sm:inline">AI Advisor</span>
+            </button>
+
+            {/* Negotiation Badge */}
+            {userRole === 'farmer' && (
+              <button
+                id="btn-negotiations"
+                onClick={() => onInitiateNegotiation && onInitiateNegotiation()}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 shadow-2xs transition-all hover:scale-102 cursor-pointer relative"
+                title="View Negotiations"
+              >
+                <MessageCircle className="w-4 h-4 text-emerald-500" />
+                <span className="hidden sm:inline">Negotiations</span>
+                <span className="absolute -top-1 -right-1 bg-emerald-600 text-white text-xs rounded-w-full w-5 h-5 font-bold flex items-center justify-center">
+                  3
+                </span>
+              </button>
+            )}
+
+            {/* Primary Action Button: New Analysis */}
+            <button
+              id="btn-primary-calculate"
+              onClick={handleStartAnalysisClick}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm shadow-emerald-600/25 transition-all hover:scale-102 cursor-pointer"
+            >
+              <span>{language === 'en' ? 'New Analysis' : 'नया विश्लेषण'}</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
