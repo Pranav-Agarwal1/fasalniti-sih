@@ -6,14 +6,9 @@ FasalNiti is an SIH-oriented agricultural decision-intelligence platform for far
 
 Farmers often choose a selling channel from the visible price alone, without a clear view of transport, mandi charges, handling, storage, payment timing, and risk. FasalNiti turns those factors into a practical comparison so farmers can make better selling decisions.
 
-## Run locally
+## Deployment
 
-```bash
-npm install
-npm run dev
-```
-
-The app serves through the Express/Vite server. Copy `.env.example` to `.env` only if Gemini advisor integration is needed.
+The application is intended to be hosted on Vercel for the SIH demonstration. Environment configuration, including optional Gemini advisor integration, is managed through the Vercel project settings.
 
 ## Main capabilities
 
